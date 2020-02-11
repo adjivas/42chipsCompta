@@ -4,7 +4,10 @@ import json
 import pyFarnell
 
 f = pyFarnell.Farnell(apiKey='secret', region='fr.farnell.com')
-dp = json.loads(f.get_part_number('2507703').get('_content')).get('premierFarnellPartNumberReturn')
+dp = json.loads(f.get_part_number('2507703', part={
+                   'resultsSettings.responseGroup': '{Prices}',
+                   'resultsSettings.refinements.filters': '{rohsCompliant,inStock}',
+                 }).get('_content')).get('premierFarnellPartNumberReturn')
 
 assert(dp.get("numberOfResults") == 1)
 
